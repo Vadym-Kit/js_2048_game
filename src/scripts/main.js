@@ -1,10 +1,11 @@
 'use strict';
 
-// // Uncomment the next lines to use your game instance in the browser
 const Game = require('../modules/Game.class');
 const game = new Game();
 
 const button = document.querySelector('.start');
+
+const message = document.querySelectorAll('.message');
 
 const win = document.querySelector('.message-win');
 const lose = document.querySelector('.message-lose');
@@ -23,20 +24,25 @@ button.addEventListener('click', () => {
 });
 
 document.addEventListener('keydown', (evnt) => {
-  if (evnt.key === 'ArrowLeft') {
-    game.moveLeft();
-  }
+  switch (evnt.key) {
+    case 'ArrowLeft':
+      game.moveLeft();
+      break;
 
-  if (evnt.key === 'ArrowRight') {
-    game.moveRight();
-  }
+    case 'ArrowRight':
+      game.moveRight();
+      break;
 
-  if (evnt.key === 'ArrowDown') {
-    game.moveDown();
-  }
+    case 'ArrowUp':
+      game.moveUp();
+      break;
 
-  if (evnt.key === 'ArrowUp') {
-    game.moveUp();
+    case 'ArrowDown':
+      game.moveDown();
+      break;
+
+    default:
+      return;
   }
 
   render(game.getState());
@@ -66,17 +72,21 @@ function render(board) {
     score.textContent = game.getScore();
   }
 
-  if (game.status === 'win') {
-    startMessage.classList.add('hidden');
+  switch (game.getStatus()) {
+    case 'win':
+      startMessage.classList.add('hidden');
 
-    win.classList.remove('hidden');
-  }
+      win.classList.remove('hidden');
+      break;
 
-  if (game.status === 'lose') {
-    startMessage.classList.add('hidden');
+    case 'lose':
+      startMessage.classList.add('hidden');
 
-    lose.classList.remove('hidden');
+      lose.classList.remove('hidden');
+      break;
+
+    default:
+      message.forEach((el) => el.classList.add('hidden'));
   }
 }
-
 // // Write your code here
